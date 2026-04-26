@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Master Repository</title>
+    <style>
+        :root {
+            /* Full Dark Mode Variables */
+            --primary-color: #f7df1e; /* JS Yellow */
+            --secondary-color: #121212; /* Very dark near-black background */
+            --text-color: #e0e0e0; /* Light gray text for readability */
+            --code-bg: #222222; /* Modern dark gray code background */
+            --code-text: #a9b7c6; /* Lighter gray code text */
+            --accent-color: #61dafb; /* React blue accent for contrast */
+            --nav-bg: #1e1e1e; /* Slightly lighter dark shade */
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Deep shadow */
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html {
+            scroll-behavior: smooth;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        /* Top Navigation/Index */
+        header {
+            background-color: var(--nav-bg);
+            padding: 10px 40px 20px 40px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        header h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        #top-nav {
+            display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;
+        }
+
+        #top-nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: color 0.3s, background-color 0.3s;
+            font-weight: 600;
+            font-size: 0.9rem;
+            background-color: #2a2a2a;
+        }
+
+        #top-nav a:hover {
+            color: #121212;
+            background-color: var(--primary-color);
+        }
+
+        /* Main Content Styling */
+        main { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+        h2.section-title {
+            color: var(--primary-color);
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-top: 60px;
+            margin-bottom: 25px;
+            font-size: 2rem;
+        }
+
+        h3 { color: var(--accent-color); margin-bottom: 15px; font-size: 1.4rem; }
+        p { margin-bottom: 15px; }
+
+        /* Concept Cards */
+        .concept-card {
+            background-color: var(--nav-bg);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .concept-title {
+            font-family: monospace; color: var(--primary-color); font-size: 1.3rem; font-weight: bold; margin-right: 15px;
+        }
+
+        .element-type {
+            display: inline-block; background-color: #333; padding: 3px 10px; border-radius: 15px; font-size: 0.8rem; color: #ddd; font-weight: 500;
+        }
+
+        /* Code/Visual Examples (Side-by-Side) */
+        .demo-split {
+            display: flex; gap: 20px; margin-top: 20px; background-color: #1a1a1a; border: 1px solid #333; border-radius: 8px; overflow: hidden; flex-wrap: wrap;
+        }
+
+        .demo-split h4 { font-size: 0.9rem; margin-bottom: 10px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+
+        .code-view, .visual-view { flex: 1; min-width: 300px; padding: 20px; }
+        .code-view { background-color: var(--code-bg); color: var(--code-text); font-family: 'Courier New', Courier, monospace; overflow-x: auto; border-right: 1px solid #333; }
+        .visual-view { background-color: #111; color: #4af626; font-family: 'Courier New', Courier, monospace; } /* Terminal look for outputs */
+
+        /* Syntax Highlighting */
+        .keyword { color: #cc7832; font-weight: bold; }
+        .string { color: #6a8759; }
+        .function { color: #ffc66d; }
+        .comment { color: #808080; font-style: italic; }
+
+        /* Tables */
+        table.demo-table { width: 100%; border-collapse: collapse; margin-top: 15px; background: #1e1e1e;}
+        table.demo-table th, table.demo-table td { border: 1px solid #444; padding: 12px; text-align: left; }
+        table.demo-table th { background-color: #2a2a2a; color: var(--primary-color); font-weight: bold;}
+
+        /* Scroll to Top Button (Pill Shaped) */
+        #scrollTopBtn {
+            display: none; position: fixed; bottom: 40px; right: 40px; z-index: 99; border: none; outline: none;
+            background-color: var(--primary-color); color: #121212; cursor: pointer; padding: 0;
+            border-radius: 50px; font-size: 18px; box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            transition: opacity 0.3s, transform 0.3s; opacity: 0.9;
+            width: 140px; height: 60px; align-items: center; justify-content: center; gap: 10px;
+        }
+        #scrollTopBtn span.arrow { font-size: 1.5em; margin-top: -3px; }
+        #scrollTopBtn span.text { font-weight: 800; text-transform: uppercase; letter-spacing: 1px;}
+        #scrollTopBtn:hover { opacity: 1; transform: scale(1.05); }
+
+        /* Special text formatting for explanations */
+        .explanation-text p { margin-bottom: 8px; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        .explanation-text code { background: #333; padding: 2px 6px; border-radius: 4px; color: var(--primary-color); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div style="display: flex; justify-content: center; font-size: 1.8rem; margin-bottom: 15px; font-weight: 900; background: linear-gradient(90deg, #f7df1e, #ff6b6b, #61dafb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 3px; text-transform: uppercase;">
+            <span style="order: 6">e</span>
+            <span style="order: 2">y</span>
+            <span style="order: 8">d</span>
+            <span style="order: 4">F</span>
+            <span style="order: 9">y</span>
+            <span style="order: 1">B</span>
+            <span style="order: 5">r</span>
+            <span style="order: 7">d</span>
+            <span style="order: 3">&nbsp;</span>
+        </div>
+
+        <h1>JavaScript Master Notes</h1>
+        <nav id="top-nav">
+            <a href="#basics">1. Basics & Scope</a>
+            <a href="#data">2. Objects & Strings</a>
+            <a href="#loops">3. Loops</a>
+            <a href="#functions">4. Functions & Arrays</a>
+            <a href="#dom">5. DOM Manipulation</a>
+            <a href="#events">6. Events</a>
+            <a href="#oop">7. Classes & OOP</a>
+            <a href="#async">8. Async & Fetch API</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="basics">
+            <h2 class="section-title">1. Basics, Scope & Operators</h2>
+            
+            <div class="concept-card">
+                <h3><span class="concept-title">let, const & var</span></h3>
+                <p><strong><code>var</code>:</strong> Can be re-declared & updated. Global scope. <em>(Avoid using this in modern JS)</em>.</p>
+                <p><strong><code>let</code>:</strong> Cannot be re-declared, but CAN be updated. Block scope.</p>
+                <p><strong><code>const</code>:</strong> Cannot be re-declared OR updated. Block scope.</p>
+                <div class="demo-split">
+                    <div class="code-view">
+                        <h4>Code</h4>
+                        <span class="keyword">const</span> a = <span class="string">10</span>;<br>
+                        <span class="comment">// a = 20; // ERROR!</span><br><br>
+                        { <span class="comment">// Block 1</span><br>
+                        &nbsp;&nbsp;<span class="keyword">const</span> x = <span class="string">5</span>;<br>
+                        }<br>
+                        { <span class="comment">// Block 2</span><br>
+                        &nbsp;&nbsp;<span class="keyword">const</span> x = <span class="string">15</span>; <span class="comment">// Valid! Different block.</span><br>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3><span class="concept-title">Equality: == vs ===</span></h3>
+                <p><code>==</code> only checks the <strong>value</strong> (it converts types automatically).<br>
+                <code>===</code> (Strict Equality) checks both <strong>value AND type</strong>. Always use <code>===</code>!</p>
+                <div class="demo-split">
+                    <div class="code-view">
+                        <span class="keyword">let</span> a = <span class="string">5</span>;<br>
+                        <span class="keyword">let</span> b = <span class="string">"5"</span>;<br>
+                        console.<span class="function">log</span>(a == b); <span class="comment">// Value match</span><br>
+                        console.<span class="function">log</span>(a === b); <span class="comment">// Type mismatch</span>
+                    </div>
+                    <div class="visual-view">
+                        <h4>Console Output</h4>
+                        true<br>false
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3><span class="concept-title">Interaction & Comments</span></h3>
+                <p><code>console.log("...")</code>: Prints to terminal/console.<br>
+                <code>alert("...")</code>: Webpage popup warning.<br>
+                <code>prompt("...")</code>: Webpage popup that takes input (returns a string).</p>
+                <p><strong>Comments:</strong> <code>// Single line</code> or <code>/* Multi line */</code></p>
+            </div>
+        </section>
+
+        <section id="data">
+            <h2 class="section-title">2. Objects & Strings</h2>
+
+            <div class="concept-card">
+                <h3><span class="concept-title">What is an Object?</span></h3>
+                <p>An object is a container that stores related data + functions together.</p>
+                <p><strong>Why Objects Matter in JS:</strong> Everything important in JS uses objects (buttons, arrays, dates, users, games, APIs, forms). Even arrays are objects!</p>
+                <div class="demo-split">
+                    <div class="code-view">
+                        <span class="keyword">let</span> zombie = {<br>
+                        &nbsp;&nbsp;health: <span class="string">20</span>,<br>
+                        &nbsp;&nbsp;name: <span class="string">"Zombie"</span>,<br>
+                        &nbsp;&nbsp;isBaby: <span class="keyword">false</span>,<br>
+                        &nbsp;&nbsp;<span class="function">attack</span>: <span class="keyword">function</span>() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;console.<span class="function">log</span>(<span class="string">"Zombie attacks!"</span>);<br>
+                        &nbsp;&nbsp;}<br>
+                        };<br><br>
+                        <span class="comment">// Use it:</span><br>
+                        console.<span class="function">log</span>(zombie.health);<br>
+                        zombie.<span class="function">attack</span>();
+                    </div>
+                    <div class="visual-view">
+                        <h4>Console Output</h4>
+                        20<br>Zombie attacks!
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3><span class="concept-title">Objects (const Mutation)</span></h3>
+                <p>Even if an object is declared with <code>const</code>, you can still modify its internal keys! You just can't reassign the entire object variable to something else.</p>
+                <div class="demo-split">
+                    <div class="code-view">
+                        <span class="keyword">const</span> student = {<br>
+                        &nbsp;&nbsp;name: <span class="string">"Freddy"</span>,<br>
+                        &nbsp;&nbsp;age: <span class="string">19</span><br>
+                        };<br>
+                        <span class="comment">// Valid: Changing a key's value</span><br>
+                        student.name = <span class="string">"Marmik"</span>;<br>
+                        student[<span class="string">"age"</span>] = <span class="string">20</span>;
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3><span class="concept-title">Template Literals (String Interpolation)</span></h3>
+                <p>Use backticks <code>` `</code> instead of quotes. Inject variables directly using <code>${variable}</code>. (Highly asked in interviews!)</p>
+                <div class="demo-split">
+                    <div class="code-view">
+                        <span class="keyword">let</span> item = <span class="string">"pen"</span>;<br>
+                        <span class="keyword">let</span> price = <span class="string">10</span>;<br>
+                        <span class="keyword">let</span> out = <span class="string">`The cost of ${item} is ${price} rs.`</span>;<br>
+                        console.<span class="function">log</span>(out);
+                    </div>
+                    <div class="visual-view">
+                        <h4>Console Output</h4>
+                        The cost of pen is 10 rs.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="loops">
+            <h2 class="section-title">3. Loops & Iteration</h2>
+            <p>Standard <code>for</code>, <code>while</code>, and <code>do...while</code> are identical to C/Java. JS adds two special loops:</p>
+
+            <div class="concept-card">
+                <h3><span class="concept-title">for...of (Arrays & Strings)</span></h3>
+                <p>Iterates over the <strong>values</strong> of iterable objects (like arrays or strings). No manual incrementation needed.</p>
+                <div class="demo-split">
+                    <div class="code-view">
+                        <span class="keyword">let</span> str = <span class="string">"Hi"</span>;<br>
+                        <span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">of</span> str) {<br>
+                        &nbsp;&nbsp;console.<span class="function">log</span>(i);<br>
+                        }
+                    </div>
+                    <div class="visual-view">
+                        <h4>Console Output</h4>
+                        H<br>i
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3><span class="concept-title">for...in (Objects)</span></h3>
+                <p>Iterates over the <strong>keys</strong> of an object.</p>
+                <div class="demo-split">
+                    <div class="code-view">
+                        <span class="keyword">const</span> obj = { a: <span class="string">1</span>, b: <span class="string">2</span> };<br>
+                        <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> obj) {<br>
+                        &nbsp;&nbsp;console.<span class="function">log</span>(<span class="string">`key=${key}, val=${obj[key]}`</span>);<br>
+                        }
+                    </div>
+                    <div class="visual-view">
+                        <h4>Console Output</h4>
+                        key=a, val=1<br>key=b, val=2
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="functions">
+            <h2 class="section-title">4. Functions & Array Methods</h2>
+
+            <div class="concept-card">
+                <h3><span class="concept-title">Functions & Arrow Functions</span></h3>
+                <p><strong>Higher Order Functions:</strong> Functions that take other functions as parameters (callbacks) or return them.</p>
+                <p><strong>Arrow Functions <code>() => {}</code>:</strong> A modern, shorter way to write functions. Used heavily in React.</p>
+                <div class="demo-split">
+                    <div class="code-view">
+                        <span class="comment">// Normal Function</span><br>
+                        <span class="keyword">function</span> <span class="function">sum</span>(a, b) {<br>
+                        &nbsp;&nbsp;<span class="keyword">return</span> a + b;<br>
+                        }<br><br>
+                        <span class="comment">// Arrow Function equivalent</span><br>
+                        <span class="keyword">const</span> <span class="function">arrowSum</span> = (a, b) => {<br>
+                        &nbsp;&nbsp;<span class="keyword">return</span> a + b;<br>
+                        };
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3><span class="concept-title">Array: forEach()</span></h3>
+                <p>Used strictly to execute a function on every item in an array. It does NOT return a new array.<br>
+                Parameters: <code>(value, index, array)</code></p>
+                <div class="demo-split">
+                    <div class="code-view">
+                        <span class="keyword">let</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>];<br>
+                        fruits.<span class="function">forEach</span>((fruit, idx) => {<br>
+                        &nbsp;&nbsp;console.<span class="function">log</span>(idx, fruit);<br>
+                        });
+                    </div>
+                    <div class="visual-view">
+                        <h4>Console Output</h4>
+                        0 'apple'<br>1 'banana'
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3><span class="concept-title">Array: map(), filter(), reduce()</span></h3>
+                <p>Unlike <code>forEach</code>, <code>map()</code> <strong>returns a brand new array</strong> based on the operation. No need to cast it to a list like in Python!</p>
+                <div class="demo-split">
+                    <div class="code-view">
+                        <span class="keyword">let</span> nums = [<span class="string">1</span>, <span class="string">2</span>, <span class="string">3</span>];<br>
+                        <span class="comment">// MAP: Modifies each element</span><br>
+                        <span class="keyword">let</span> doubled = nums.<span class="function">map</span>(n => n * <span class="string">2</span>);<br><br>
+                        <span class="comment">// FILTER: Keeps elements that return true</span><br>
+                        <span class="keyword">let</span> evens = nums.<span class="function">filter</span>(n => n % <span class="string">2</span> === <span class="string">0</span>);<br><br>
+                        <span class="comment">// REDUCE: Boils array down to single value (e.g. sum)</span><br>
+                        <span class="keyword">let</span> sum = nums.<span class="function">reduce</span>((res, curr) => res + curr);
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3><span class="concept-title">Python vs JavaScript Dictionary</span></h3>
+                <table class="demo-table">
+                    <tr><th>Python</th><th>JavaScript</th></tr>
+                    <tr><td>list</td><td>array <code>[]</code></td></tr>
+                    <tr><td>dict</td><td>object <code>{}</code></td></tr>
+                    <tr><td>append() / pop()</td><td>push() / pop()</td></tr>
+                    <tr><td>len(list)</td><td>array.length</td></tr>
+                    <tr><td>for item in list</td><td>for...of</td></tr>
+                    <tr><td>List Comprehension <code>[x*2 for x in l]</code></td><td>array.map()</td></tr>
+                </table>
+            </div>
+        </section>
+
+        <section id="dom">
+            <h2 class="section-title">5. DOM Manipulation (Detailed)</h2>
+            <p><strong>DOM (Document Object Model):</strong> The browser's tree representation of HTML. The <code>window</code> is the global browser object; <code>document</code> is the HTML page inside it. Use <code>console.dir(document)</code> to inspect it.</p>
+
+            <div class="concept-card">
+                <h3><span class="concept-title">Selecting Elements</span></h3>
+                <p><code>document.getElementById("myId")</code>: Returns 1 element.<br>
+                <code>document.getElementsByClassName("myClass")</code>: Returns HTMLCollection.<br>
+                <code>document.querySelector(".myClass")</code>: Returns the FIRST matching element (Can take tags, #ids, .classes).<br>
+                <code>document.querySelectorAll("p")</code>: Returns a NodeList of ALL matching elements.</p>
+            </div>
+
+            <div class="concept-card">
+                <h3><span class="concept-title">innerText vs innerHTML vs textContent</span></h3>
+                <table class="demo-table">
+                    <tr><th>Property</th><th>What it Returns / Sets</th></tr>
+                    <tr><td><code>innerText</code></td><td>Visible text only (ignores hidden elements)</td></tr>
+                    <tr><td><code>innerHTML</code></td><td>Full HTML tags + text. (Can be used to inject tags)</td></tr>
+                    <tr><td><code>textContent</code></td><td>All text, even if hidden by CSS <code>display:none</code></td></tr>
+                </table>
+                <div class="demo-split">
+                    <div class="code-view">
+                        <span class="comment">// HTML: &lt;h1&gt;Hi&lt;/h1&gt;</span><br>
+                        <span class="keyword">let</span> h1 = document.<span class="function">querySelector</span>(<span class="string">"h1"</span>);<br>
+                        h1.innerText += <span class="string">" Freddy"</span>; <span class="comment">// Appends text</span><br>
+                        h1.innerHTML = <span class="string">"&lt;i&gt;Italic Freddy&lt;/i&gt;"</span>; <span class="comment">// Injects HTML</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3><span class="concept-title">Creating & Deleting Elements</span></h3>
+                <p>
+                    1. Create: <code>let el = document.createElement("div")</code><br>
+                    2. Append (Inside at end): <code>node.append(el)</code><br>
+                    3. Prepend (Inside at start): <code>node.prepend(el)</code><br>
+                    4. Before (Outside, above): <code>node.before(el)</code><br>
+                    5. After (Outside, below): <code>node.after(el)</code><br>
+                    6. Delete: <code>node.remove()</code>
+                </p>
+                <div class="demo-split">
+                    <div class="code-view">
+                        <span class="comment">// Targetting: &lt;div id="box"&gt;Middle Text&lt;/div&gt;</span><br>
+                        <span class="keyword">let</span> box = document.<span class="function">querySelector</span>(<span class="string">"#box"</span>);<br><br>
+                        <span class="keyword">let</span> btn1 = document.<span class="function">createElement</span>(<span class="string">"button"</span>);<br>
+                        btn1.innerText = <span class="string">"Prepended"</span>;<br>
+                        box.<span class="function">prepend</span>(btn1);<br><br>
+                        <span class="keyword">let</span> btn2 = document.<span class="function">createElement</span>(<span class="string">"button"</span>);<br>
+                        btn2.innerText = <span class="string">"Appended"</span>;<br>
+                        box.<span class="function">append</span>(btn2);<br><br>
+                        <span class="keyword">let</span> para = document.<span class="function">createElement</span>(<span class="string">"p"</span>);<br>
+                        para.innerText = <span class="string">"Before (Outside)"</span>;<br>
+                        box.<span class="function">before</span>(para);<br><br>
+                        <span class="comment">// box.remove(); // Removes the entire box</span>
+                    </div>
+                    <div class="visual-view" style="font-family: 'Segoe UI', sans-serif;">
+                        <h4 style="color: #888;">Resulting HTML Structure</h4>
+                        <p style="color: var(--text-color); margin-bottom: 5px;">Before (Outside)</p>
+                        <div style="border: 2px dashed #444; padding: 15px; background: #222; border-radius: 4px;">
+                            <button style="background: #444; color: white; border: none; padding: 5px;">Prepended</button>
+                            <span style="color: white; margin: 0 10px;"> Middle Text </span>
+                            <button style="background: #444; color: white; border: none; padding: 5px;">Appended</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="events">
+            <h2 class="section-title">6. Events</h2>
+            <p><strong>Note:</strong> JS Event Handling has priority over inline HTML event handling.</p>
+            
+            <div class="concept-card">
+                <h3><span class="concept-title">addEventListener & Event Object (e)</span></h3>
+                <p><strong><code>addEventListener</code></strong> = Wait for something, then run function.<br>
+                <strong><code>e</code></strong> = Info about what happened.</p>
+                <div class="demo-split">
+                    <div class="code-view">
+                        <span class="keyword">let</span> btn = document.<span class="function">querySelector</span>(<span class="string">"#myBtn"</span>);<br><br>
+                        <span class="keyword">const</span> <span class="function">greet</span> = (e) => {<br>
+                        &nbsp;&nbsp;console.<span class="function">log</span>(<span class="string">"Event type:"</span>, e.type);<br>
+                        };<br><br>
+                        btn.<span class="function">addEventListener</span>(<span class="string">"click"</span>, greet);
+                    </div>
+                    <div class="visual-view explanation-text" style="color: var(--text-color); font-family: 'Segoe UI', sans-serif;">
+                        <h4>What this means:</h4>
+                        <p><code>btn.addEventListener("click", greet);</code></p>
+                        <p style="color: var(--primary-color);">“When button is clicked, run <em>greet</em> and give event details.”</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="oop">
+            <h2 class="section-title">7. Classes & Object-Oriented Programming (OOP)</h2>
+            
+            <div class="concept-card">
+                <h3><span class="concept-title">Line-by-Line Breakdown</span></h3>
+                <p style="background-color: #333; padding: 10px; border-radius: 5px; font-weight: bold; border-left: 5px solid var(--accent-color);">
+                    Super Easy Meaning:<br>
+                    Person = Human<br>
+                    Engineer = Human + coding skill<br>
+                    Freddy = one Engineer
+                </p>
+                <p><strong>Most Important Line:</strong> <code>class Engineer extends Person</code> = Engineer gets Person powers.</p>
+                
+                <div class="demo-split">
+                    <div class="code-view" style="flex: 1.2;">
+                        <span class="keyword">class</span> Person {<br>
+                        &nbsp;&nbsp;<span class="function">constructor</span>(name) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.species = <span class="string">"Homo Sapiens"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.name = name;<br>
+                        &nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;<span class="function">eat</span>() { console.<span class="function">log</span>(<span class="string">"eating"</span>); }<br>
+                        }<br><br>
+                        <span class="keyword">class</span> Engineer <span class="keyword">extends</span> Person {<br>
+                        &nbsp;&nbsp;<span class="function">constructor</span>(name, branch) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">super</span>(name);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.branch = branch;<br>
+                        &nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;<span class="function">work</span>() { console.<span class="function">log</span>(<span class="string">"coding"</span>); }<br>
+                        }<br><br>
+                        <span class="keyword">let</span> freddy = <span class="keyword">new</span> Engineer(<span class="string">"Freddy"</span>, <span class="string">"CS"</span>);<br>
+                        freddy.<span class="function">work</span>(); <br>
+                        freddy.<span class="function">eat</span>();
+                    </div>
+                    <div class="visual-view explanation-text" style="flex: 1.5; color: var(--text-color); font-family: 'Segoe UI', sans-serif;">
+                        <h4>What happens step-by-step?</h4>
+                        <p><code>class Person {</code><br> Creates a class. Think: blueprint for making humans.</p>
+                        <p><code>constructor(name) {</code><br> Special function that runs automatically when new object is made.</p>
+                        <p><code>this.species = "Homo Sapiens";</code><br> Adds property to object. <code>this</code> = current object.</p>
+                        <p><code>class Engineer extends Person</code><br> Engineer gets all features of Person.</p>
+                        <p><code>super(name);</code><br> Runs parent (Person) constructor. Adds species and name.</p>
+                        <p><code>let freddy = new Engineer("Freddy", "CS");</code><br> Creates object. Values become: name=Freddy, branch=CS, species=Homo Sapiens.</p>
+                        <p><code>freddy.work();</code><br> Runs Engineer's method. Output: <em>coding</em></p>
+                        <p style="border-bottom: none;"><code>freddy.eat();</code><br> Runs Person's inherited method. Output: <em>eating</em></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="async">
+            <h2 class="section-title">8. Async JS, Promises & Fetch API (Completion)</h2>
+            <p>JavaScript runs <strong>Synchronously</strong> (one line at a time). However, tasks like fetching data from a server take time. If JS waits, the website freezes. Therefore, we use <strong>Asynchronous</strong> programming.</p>
+
+            <div class="concept-card">
+                <h3><span class="concept-title">setTimeout & Callbacks</span></h3>
+                <p><code>setTimeout(callback, milliseconds)</code> executes code AFTER a timer. This is Async! JS doesn't stop and wait; it continues running other code and comes back to this when the timer finishes.</p>
+                <div class="demo-split">
+                    <div class="code-view">
+                        console.<span class="function">log</span>(<span class="string">"1"</span>);<br>
+                        <span class="function">setTimeout</span>(() => {<br>
+                        &nbsp;&nbsp;console.<span class="function">log</span>(<span class="string">"2"</span>); <span class="comment">// Runs after 2 seconds</span><br>
+                        }, <span class="string">2000</span>);<br>
+                        console.<span class="function">log</span>(<span class="string">"3"</span>);
+                    </div>
+                    <div class="visual-view">
+                        <h4>Console Output</h4>
+                        1<br>3<br>2
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3><span class="concept-title">Promises (Solving Callback Hell)</span></h3>
+                <p>When you have nested callbacks (callbacks inside callbacks inside callbacks), it becomes "Callback Hell" (unreadable code). <strong>Promises</strong> solve this.<br>
+                A Promise is an object representing eventual completion (or failure) of an async task. It has 3 states: Pending, Resolved (success), Rejected (error).</p>
+                <div class="demo-split">
+                    <div class="code-view">
+                        <span class="keyword">let</span> myPromise = <span class="keyword">new</span> Promise((resolve, reject) => {<br>
+                        &nbsp;&nbsp;<span class="keyword">let</span> success = <span class="keyword">true</span>;<br>
+                        &nbsp;&nbsp;<span class="keyword">if</span>(success) resolve(<span class="string">"Data Fetched!"</span>);<br>
+                        &nbsp;&nbsp;<span class="keyword">else</span> reject(<span class="string">"Network Error"</span>);<br>
+                        });<br><br>
+                        <span class="comment">// Consuming the promise:</span><br>
+                        myPromise.<span class="function">then</span>((res) => {<br>
+                        &nbsp;&nbsp;console.<span class="function">log</span>(res); <span class="comment">// Runs if resolved</span><br>
+                        }).<span class="function">catch</span>((err) => {<br>
+                        &nbsp;&nbsp;console.<span class="function">log</span>(err); <span class="comment">// Runs if rejected</span><br>
+                        });
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3><span class="concept-title">Async / Await</span></h3>
+                <p>An even better, cleaner way to write Promises! Putting <code>async</code> before a function makes it always return a Promise. Inside it, using <code>await</code> pauses execution until the promise settles, making async code look synchronous!</p>
+                <div class="demo-split">
+                    <div class="code-view">
+                        <span class="keyword">async function</span> <span class="function">getData</span>() {<br>
+                        &nbsp;&nbsp;console.<span class="function">log</span>(<span class="string">"Fetching data..."</span>);<br>
+                        &nbsp;&nbsp;<span class="keyword">await</span> <span class="function">setTimeout</span>(<span class="comment">...some DB query...</span>);<br>
+                        &nbsp;&nbsp;console.<span class="function">log</span>(<span class="string">"Done!"</span>);<br>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3><span class="concept-title">Fetch API (Network Requests)</span></h3>
+                <p>Used to get data from other websites/servers. <code>fetch()</code> returns a Promise. You must resolve it, and then convert the result to JSON (which also returns a Promise).</p>
+                <div class="demo-split">
+                    <div class="code-view">
+                        <span class="keyword">const</span> URL = <span class="string">"https://api.github.com/users/marmik"</span>;<br><br>
+                        <span class="keyword">async function</span> <span class="function">getFacts</span>() {<br>
+                        &nbsp;&nbsp;<span class="comment">// 1. Await the network request</span><br>
+                        &nbsp;&nbsp;<span class="keyword">let</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(URL);<br>
+                        &nbsp;&nbsp;console.<span class="function">log</span>(response.status); <span class="comment">// e.g., 200</span><br><br>
+                        &nbsp;&nbsp;<span class="comment">// 2. Await the JSON conversion</span><br>
+                        &nbsp;&nbsp;<span class="keyword">let</span> data = <span class="keyword">await</span> response.<span class="function">json</span>();<br>
+                        &nbsp;&nbsp;console.<span class="function">log</span>(data);<br>
+                        }<br><br>
+                        <span class="function">getFacts</span>();
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <div style="height: 100px;"></div>
+    </main>
+
+    <button id="scrollTopBtn" title="Go to top">
+        <span class="arrow">↑</span>
+        <span class="text">Top</span>
+    </button>
+
+    <script>
+        let mybutton = document.getElementById("scrollTopBtn");
+
+        window.onscroll = function() {
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                mybutton.style.display = "flex";
+            } else {
+                mybutton.style.display = "none";
+            }
+        };
+
+        mybutton.onclick = function() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+    </script>
+</body>
+</html>
